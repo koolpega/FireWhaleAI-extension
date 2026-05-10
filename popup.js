@@ -100,6 +100,10 @@ function setError(msg) {
   scanSummary.textContent = msg || "Could not analyze this page.";
 }
 
+openDashboardBtn.addEventListener("click", () => {
+  chrome.runtime.openOptionsPage()
+});
+
 async function runScan() {
   if (isScanning) return;
   setScanning();
