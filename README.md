@@ -2,10 +2,11 @@
 
 > A modern AI-powered browser extension designed for intelligent web analysis, smart protection, and a clean browsing experience.
 
-
+---
+![GitHub stars](https://img.shields.io/github/stars/koolpega/FireWhaleAI-extension?style=for-the-badge&logo=github) ![GitHub forks](https://img.shields.io/github/forks/koolpega/FireWhaleAI-extension?style=for-the-badge&logo=github) ![GitHub issues](https://img.shields.io/github/issues/koolpega/FireWhaleAI-extension?style=for-the-badge&logo=github)
 ---
 
-## Features
+## 🚀 Features
 -  AI-powered webpage analysis
 -  Protection against phishing attempts
 -  Summarize Privacy Policy in one-click
@@ -78,13 +79,20 @@ Then select the project folder.
 FireWhaleAI-extension/
 │
 ├── assets/
-├── icons/
-├── popup.html
+├── background.js
+├── content.js
 ├── dashboard.html
+├── dashboard.js
+├── icons/
+│   ├── icon-transparent.png
+│   ├── icon.png
+│   ├── icon128.png
+│   ├── icon16.png
+│   └── icon48.png
 ├── manifest.json
-├── script.mjs
-├── server.mjs
-└── style.css
+├── popup.html
+├── popup.js
+└── vercel.json
 ```
 
 ---
@@ -98,6 +106,8 @@ Example:
 ```env
 GEMINI_API_KEY=your_api_key_here
 ```
+
+Get your Gemini API Key from here: https://aistudio.google.com/api-keys
 
 ---
 
@@ -127,31 +137,16 @@ The project focuses on:
 
 # 🤝 Contributing
 
-Contributions are welcome!
+Contributions are welcome! Here's how you can help:
 
-## Steps
+1. **Fork** the repository
+2. **Clone** your fork: `git clone https://github.com/koolpega/FireWhaleAI-extension.git`
+3. **Create** a new branch: `git checkout -b feature/your-feature`
+4. **Commit** your changes: `git commit -am 'Add some feature'`
+5. **Push** to your branch: `git push origin feature/your-feature`
+6. **Open** a pull request
 
-### Fork the repository
-
-### Create a feature branch
-
-```bash
-git checkout -b feature/my-feature
-```
-
-### Commit changes
-
-```bash
-git commit -m "Add new feature"
-```
-
-### Push to GitHub
-
-```bash
-git push origin feature/my-feature
-```
-
-### Open a Pull Request
+Please ensure your code follows the project's style guidelines and includes tests where applicable.
 
 ---
 
