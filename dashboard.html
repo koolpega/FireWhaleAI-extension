@@ -1,0 +1,898 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dashboard</title>
+<style>
+  @font-face {
+  font-family: 'FFFont';
+  src: url('https://raw.githubusercontent.com/koolpega/Free-Fire/refs/heads/main/res/font/font.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'FFFont';
+  src: url('https://raw.githubusercontent.com/koolpega/Free-Fire/refs/heads/main/res/font/font_bold.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+}
+
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --bg: #141414;
+    --surface: #00000050;
+    --surface2: #141420;
+    --surface3: #1c1c2c;
+    --surface4: #00171f;
+    --surface5: #00ffba75;
+    --surface6: #00ffba;
+    --border: #ffffff75;
+    --accent: #8a4eff;
+    --accent2: #7c3aed;
+    --green: #00ff88;
+    --red: #ff3b5c;
+    --orange: #ffdd00;
+    --yellow: #ffd60a;
+    --blue: #3b82f6;
+    --text: #e8e8f2;
+    --text-muted: #a0a0b2;
+    --muted: #5a5a7a;
+    --muted2: #3a3a5a;
+    --font: 'FFFont', sans-serif;
+    --mono: 'FFFont', monospace;
+  }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+
+  background-image:
+    linear-gradient(rgba(255,255,255,0.08) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,150,0.08) 1px, transparent 1px);
+
+  background-size: 40px 40px;
+
+  animation: gridMove 3s linear infinite;
+
+  pointer-events: none;
+  z-index: 0;
+}
+
+@keyframes gridMove {
+  from {
+    background-position: 0 0;
+  }
+  to {
+    background-position: 40px 40px;
+  }
+}
+
+  .page {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 32px 24px;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* NAV */
+  nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 40px;
+  }
+
+  .nav-logo {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+
+  /* .nav-icon {
+    width: 48px; height: 48px;
+    background: linear-gradient(135deg, #00d4ff22, #7c3aed22);
+    border: 1px solid rgba(0,212,255,0.3);
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    box-shadow: 0 0 30px rgba(0,212,255,0.15);
+  } */
+
+  .nav-icon {
+  width: 48px;
+  height: 48px;
+
+  background: linear-gradient(135deg, #00000050, #ffffff22);
+  border: 1px solid rgba(0,212,255,0.3);
+  border-radius: 14px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  overflow: hidden;
+}
+
+  .nav-logo-img {
+    width: 40px;
+    height: 40px;
+    object-fit: contain;
+  }
+
+  .nav-title {
+    font-size: 26px;
+    font-weight: 800;
+    background: linear-gradient(90deg, var(--accent), #a78bfa, var(--accent));
+    background-size: 200%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: gradFlow 4s linear infinite;
+    letter-spacing: -0.5px;
+  }
+
+  @keyframes gradFlow {
+    0% { background-position: 0% }
+    100% { background-position: 200% }
+  }
+
+  .nav-sub {
+    font-size: 12px;
+    color: var(--muted);
+    font-family: var(--mono);
+    margin-top: 2px;
+  }
+
+  .nav-actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 9px 16px;
+    border-radius: 9px;
+    font-family: var(--font);
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    text-decoration: none;
+    transition: all 0.2s;
+    border: 1px solid transparent;
+    letter-spacing: 0.2px;
+  }
+
+  .btn-outline {
+    background: var(--surface2);
+    border-color: var(--border);
+    color: var(--text);
+  }
+
+  .btn-outline:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+    background: rgba(0,212,255,0.05);
+  }
+
+  .btn-primary {
+    background: linear-gradient(135deg, var(--accent), #0099cc);
+    color: #000;
+    font-weight: 700;
+  }
+
+  .btn-primary:hover { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(0,212,255,0.25); }
+
+  /* HERO STATS */
+  .hero-stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    margin-bottom: 28px;
+  }
+
+  .stat-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 22px 20px;
+    position: relative;
+    overflow: hidden;
+    transition: border-color 0.2s, transform 0.2s;
+    cursor: default;
+  }
+
+  .stat-card:hover { transform: translateY(-2px); }
+
+  .stat-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    opacity: 0.7;
+  }
+
+  .stat-card.phishing::before { background: linear-gradient(90deg, var(--red), transparent); }
+  .stat-card.misinfo::before { background: linear-gradient(90deg, var(--orange), transparent); }
+  .stat-card.deepfake::before { background: linear-gradient(90deg, var(--green), transparent); }
+  .stat-card.privacy::before { background: linear-gradient(90deg, var(--blue), transparent); }
+
+  .stat-glow {
+    position: absolute;
+    top: -30px; right: -30px;
+    width: 80px; height: 80px;
+    border-radius: 50%;
+    opacity: 0.12;
+  }
+
+  .phishing .stat-glow { background: var(--red); }
+  .misinfo .stat-glow { background: var(--orange); }
+  .deepfake .stat-glow { background: var(--green); }
+  .privacy .stat-glow { background: var(--blue); }
+
+  .stat-icon { font-size: 24px; margin-bottom: 10px; }
+  .stat-label {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--muted);
+    font-family: var(--mono);
+    margin-bottom: 6px;
+  }
+
+  .stat-value {
+    font-size: 38px;
+    font-weight: 800;
+    font-family: var(--mono);
+    line-height: 1;
+    margin-bottom: 4px;
+  }
+
+  .phishing .stat-value { color: var(--red); }
+  .misinfo .stat-value { color: var(--orange); }
+  .deepfake .stat-value { color: var(--green); }
+  .privacy .stat-value { color: var(--blue); }
+
+  .stat-sub {
+    font-size: 11px;
+    color: var(--muted);
+  }
+
+  /* MAIN GRID */
+  .main-grid {
+    display: grid;
+    grid-template-columns: 1fr 380px;
+    gap: 20px;
+    margin-bottom: 20px;
+  }
+
+  .panel {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 22px;
+  }
+
+  .panel-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+  }
+
+  .panel-title {
+    font-size: 14px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    letter-spacing: -0.2px;
+  }
+
+  .panel-badge {
+    font-size: 9px;
+    font-family: var(--mono);
+    background: var(--surface3);
+    border: 1px solid var(--border);
+    color: var(--muted);
+    padding: 2px 7px;
+    border-radius: 20px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .panel:hover { transform: translateY(-2px); }
+
+  /* Chart */
+  .chart-wrap {
+    height: 160px;
+    display: flex;
+    align-items: flex-end;
+    gap: 8px;
+    padding: 0 4px;
+  }
+
+  .chart-bar-group {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+  }
+
+  .chart-bars {
+    display: flex;
+    gap: 3px;
+    align-items: flex-end;
+    height: 120px;
+    width: 100%;
+    justify-content: center;
+  }
+
+  .chart-bar {
+    width: 10px;
+    border-radius: 3px 3px 0 0;
+    transition: height 0.6s ease;
+    min-height: 2px;
+    opacity: 0.85;
+  }
+
+  .chart-bar:hover { opacity: 1; }
+  .chart-bar.ph { background: var(--red); }
+  .chart-bar.mi { background: var(--orange); }
+  .chart-bar.df { background: #a78bfa; }
+
+  .chart-label {
+    font-size: 9px;
+    color: var(--muted);
+    font-family: var(--mono);
+  }
+
+  .chart-legend {
+    display: flex;
+    gap: 14px;
+    margin-top: 12px;
+    flex-wrap: wrap;
+  }
+
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 11px;
+    color: var(--muted);
+  }
+
+  .legend-dot { width: 8px; height: 8px; border-radius: 2px; }
+
+  /* Total scans ring */
+  .total-card {
+    text-align: center;
+    padding: 28px 22px;
+  }
+
+  .ring-wrap {
+    position: relative;
+    width: 120px;
+    height: 120px;
+    margin: 0 auto 16px;
+  }
+
+  .ring-wrap svg { transform: rotate(-90deg); }
+  .ring-bg { fill: none; stroke: var(--surface3); stroke-width: 8; }
+  .ring-fill { fill: none; stroke-width: 8; stroke-linecap: round; transition: stroke-dashoffset 1s ease; }
+
+  .ring-label {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .ring-num {
+    font-size: 28px;
+    font-weight: 800;
+    font-family: var(--mono);
+    color: var(--surface6);
+    line-height: 1;
+  }
+
+  .ring-sub {
+    font-size: 9px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-top: 2px;
+  }
+
+  .total-label {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 4px;
+  }
+
+  .total-desc { font-size: 11px; color: var(--muted); line-height: 1.4; }
+
+  .protection-rate {
+    margin-top: 16px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 12px;
+  }
+
+  .pr-label { font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.8px; font-family: var(--mono); margin-bottom: 6px; }
+  .pr-bar { height: 6px; background: var(--surface3); border-radius: 3px; overflow: hidden; }
+  .pr-fill { height: 100%; background: linear-gradient(90deg, var(--accent), var(--green)); border-radius: 3px; transition: width 1s ease; }
+  .pr-pct { font-size: 18px; font-weight: 700; color: var(--green); font-family: var(--mono); margin-top: 6px; }
+
+  /* History */
+  .history-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    max-height: 380px;
+    overflow-y: auto;
+  }
+
+  .history-list::-webkit-scrollbar { width: 4px; }
+  .history-list::-webkit-scrollbar-track { background: transparent; }
+  .history-list::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+
+  .history-item {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 10px 12px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    transition: border-color 0.2s;
+  }
+
+  .history-item:hover { border-color: var(--accent); }
+
+  .hi-risk {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  .risk-safe, .risk-low { background: var(--green); }
+  .risk-medium { background: var(--orange); }
+  .risk-high, .risk-critical { background: var(--red); }
+
+  .hi-content { flex: 1; min-width: 0; }
+  .hi-title { font-size: 12px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .hi-url { font-size: 10px; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-family: var(--mono); }
+
+  .hi-flags { display: flex; gap: 4px; flex-shrink: 0; }
+
+  .flag-chip {
+    font-size: 9px;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-weight: 600;
+    font-family: var(--mono);
+  }
+
+  .fc-phishing { background: rgba(255,59,92,0.15); color: var(--red); }
+  .fc-misinfo { background: rgba(255,149,0,0.12); color: var(--orange); }
+  .fc-deepfake { background: rgba(124,58,237,0.15); color: #a78bfa; }
+
+  .hi-time { font-size: 9px; color: var(--muted); flex-shrink: 0; font-family: var(--mono); }
+
+  /* Settings */
+  .settings-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+
+  .toggle-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: var(--surface4);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 12px 14px;
+  }
+
+  .toggle-info { flex: 1; }
+  .toggle-name { font-size: 13px; font-weight: 600; display: flex; align-items: center; gap: 7px; }
+  .toggle-desc { font-size: 10px; color: var(--muted); margin-top: 2px; }
+
+  .toggle {
+    position: relative;
+    width: 38px; height: 22px;
+    flex-shrink: 0;
+  }
+
+  .toggle input { display: none; }
+
+  .toggle-track {
+    position: absolute;
+    inset: 0;
+    background: var(--surface3);
+    border: 1px solid var(--border);
+    border-radius: 11px;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+
+  .toggle input:checked ~ .toggle-track { background: var(--surface5); border-color: var(--accent); }
+
+  .toggle-thumb {
+    position: absolute;
+    top: 2px; left: 2px;
+    width: 16px; height: 16px;
+    background: white;
+    border-radius: 50%;
+    transition: transform 0.2s;
+    pointer-events: none;
+  }
+
+  .toggle input:checked ~ .toggle-track .toggle-thumb { transform: translateX(16px); }
+
+  /* OSS Banner */
+  .oss-banner {
+    background: linear-gradient(135deg, rgba(124,58,237,0.1), rgba(0,212,255,0.05));
+    border: 1px solid rgba(0,255,240,0.25);
+    border-radius: 14px;
+    padding: 18px 22px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: 20px;
+    transition: all 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .oss-banner:hover {
+  transform: translateY(-4px);
+  border-color: rgba(138,78,255,0.6);
+
+  box-shadow:
+    0 10px 30px rgba(0,212,255,0.08),
+    0 0 40px rgba(0,212,255,0.08);
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(124,58,237,0.16),
+      rgba(0,212,255,0.08)
+    );
+  }
+
+  .oss-left { display: flex; align-items: center; gap: 14px; }
+  .oss-icon { font-size: 28px; }
+  .oss-title { font-size: 15px; font-weight: 700; color: var(--text); margin-bottom: 4px; }
+  .oss-desc { font-size: 12px; color: var(--muted); line-height: 1.4; }
+
+  .oss-right { display: flex; flex-direction: column; gap: 8px; align-items: flex-end; }
+
+  .tip-banner {
+    background: rgba(0,212,255,0.04);
+    border: 1px solid rgba(0,212,255,0.15);
+    border-radius: 10px;
+    padding: 12px 16px;
+    font-size: 12px;
+    color: var(--accent);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .tip-banner strong { color: var(--text); }
+
+  /* Empty state */
+  .empty-state {
+    text-align: center;
+    padding: 40px 20px;
+    color: var(--muted);
+  }
+  .empty-state .em-icon { font-size: 32px; margin-bottom: 10px; }
+  .empty-state .em-text { font-size: 13px; }
+
+  .section-divider {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 24px 0;
+  }
+  .section-divider-line { flex: 1; height: 1px; background: var(--border); }
+  .section-divider-label { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; font-family: var(--mono); }
+
+  .clear-btn {
+    background: none;
+    border: 1px solid var(--border);
+    color: var(--muted);
+    font-family: var(--font);
+    font-size: 11px;
+    padding: 4px 10px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .clear-btn:hover { border-color: var(--red); color: var(--red); }
+
+  .brand-icon {
+  width: 16px;
+  height: 16px;
+  object-fit: contain;
+  vertical-align: middle;
+  margin-left: 5px;
+}
+
+.github-icon {
+  filter: invert(1);
+}
+
+  @media (max-width: 800px) {
+    .main-grid { grid-template-columns: 1fr; }
+    .hero-stats { grid-template-columns: 1fr 1fr; }
+    .settings-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- NAV -->
+
+  <nav>
+  <div class="nav-logo">
+    <div class="nav-icon">
+      <img src="https://raw.githubusercontent.com/koolpega/FireWhaleAI-extension/refs/heads/main/icons/icon-transparent.png" class="nav-logo-img">
+    </div>
+    <div>
+      <div class="nav-title">FireWhale AI Dashboard</div>
+      <div class="nav-sub">Web Guardian · Powered by Google Gemini</div>
+    </div>
+  </div>
+
+  <div class="nav-actions">
+    <div class="tip-banner" style="font-size:11px;padding:9px 12px;">
+      Combine with
+      <img src="https://upload.wikimedia.org/wikipedia/commons/0/05/UBlock_Origin.svg" class="brand-icon" alt="uBlock Origin"><strong>uBlock Origin</strong>
+      &nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Works Best on
+
+      <img
+        src="https://upload.wikimedia.org/wikipedia/commons/5/51/Brave_icon_lionface.png"
+        class="brand-icon"
+        alt="Brave"
+      >
+
+      <strong>Brave Browser</strong>
+    </div>
+
+    <a class="btn btn-outline"
+       href="https://github.com/koolpega/FireWhaleAI-extension"
+       target="_blank">
+
+      <img
+        src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png"
+        class="brand-icon github-icon"
+        alt="GitHub"
+      >
+
+      GitHub Repo
+    </a>
+  </div>
+</nav>
+
+  <!-- HERO STATS -->
+  <div class="hero-stats">
+    <div class="stat-card phishing">
+      <div class="stat-glow"></div>
+      <div class="stat-icon"></div>
+      <div class="stat-label">Phishing Blocked</div>
+      <div class="stat-value" id="statPhishing">0</div>
+      <div class="stat-sub">threats neutralized</div>
+    </div>
+    <div class="stat-card misinfo">
+      <div class="stat-glow"></div>
+      <div class="stat-icon"></div>
+      <div class="stat-label">Misinfo Flagged</div>
+      <div class="stat-value" id="statMisinfo">0</div>
+      <div class="stat-sub">false claims caught</div>
+    </div>
+    <div class="stat-card deepfake">
+      <div class="stat-glow"></div>
+      <div class="stat-icon"></div>
+      <div class="stat-label">Deepfakes Found</div>
+      <div class="stat-value" id="statDeepfake">0</div>
+      <div class="stat-sub">synthetic media</div>
+    </div>
+    <div class="stat-card privacy">
+      <div class="stat-glow"></div>
+      <div class="stat-icon"></div>
+      <div class="stat-label">Policies Analyzed</div>
+      <div class="stat-value" id="statPrivacy">0</div>
+      <div class="stat-sub">privacy reviews</div>
+    </div>
+  </div>
+
+  <!-- MAIN GRID -->
+  <div class="main-grid">
+    <!-- Activity Chart -->
+    <div class="panel">
+      <div class="panel-header">
+        <div class="panel-title">Threat Activity <span class="panel-badge">Last 7 Scans</span></div>
+      </div>
+      <div class="chart-wrap" id="chartWrap"></div>
+      <div class="chart-legend">
+        <div class="legend-item"><div class="legend-dot" style="background:var(--red)"></div>Phishing</div>
+        <div class="legend-item"><div class="legend-dot" style="background:var(--orange)"></div>Misinfo</div>
+        <div class="legend-item"><div class="legend-dot" style="background:#a78bfa"></div>Deepfake</div>
+      </div>
+    </div>
+
+    <!-- Total + Protection Rate -->
+    <div class="panel total-card">
+      <div class="panel-title" style="justify-content:center;margin-bottom:16px">Protection Score</div>
+      <div class="ring-wrap">
+        <svg viewBox="0 0 120 120" width="120" height="120">
+          <circle class="ring-bg" cx="60" cy="60" r="52"/>
+          <circle class="ring-fill" id="ringFill" cx="60" cy="60" r="52"
+            stroke="url(#ringGrad)"
+            stroke-dasharray="327"
+            stroke-dashoffset="327"/>
+          <defs>
+            <linearGradient id="ringGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" style="stop-color:#00d4ff"/>
+              <stop offset="100%" style="stop-color:#00ff88"/>
+            </linearGradient>
+          </defs>
+        </svg>
+        <div class="ring-label">
+          <div class="ring-num" id="ringNum">0</div>
+          <div class="ring-sub">Scans</div>
+        </div>
+      </div>
+      <div class="total-label">Total Pages Scanned</div>
+      <div class="total-desc" id="lastScan">No scans yet. Open any webpage and FireWhale AI will start protecting you automatically.</div>
+      <div class="protection-rate">
+        <div class="pr-label">Threat Detection Rate</div>
+        <div class="pr-bar"><div class="pr-fill" id="prFill" style="width:0%"></div></div>
+        <div class="pr-pct" id="prPct">0%</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- OSS Banner -->
+  <div class="oss-banner">
+    <div class="oss-left">
+      <div class="oss-icon">👻</div>
+      <div>
+        <div class="oss-title">FireWhale AI is Free & Open Source</div>
+        <div class="oss-desc">Contribute, audit the code, or self-host. Licensed under MIT. Built with transparency in mind. No telemetry, no data collection.</div>
+      </div>
+    </div>
+    <div class="oss-right">
+      <a class="btn btn-primary" href="https://github.com/koolpega/FireWhaleAI-extension" target="_blank">
+        ⭐ Star on GitHub
+      </a>
+      <a class="btn btn-outline" href="https://github.com/koolpega/FireWhaleAI-extension/issues" target="_blank">
+        🐛 Report Issue
+      </a>
+    </div>
+  </div>
+
+  <!-- History + Settings -->
+  <div class="main-grid">
+    <!-- History -->
+    <div class="panel">
+      <div class="panel-header">
+        <div class="panel-title">Scan History <span class="panel-badge" id="historyCount">0 entries</span></div>
+        <button class="clear-btn" id="clearHistoryBtn">Clear All</button>
+      </div>
+      <div class="history-list" id="historyList">
+        <div class="empty-state">
+          <div class="em-icon">🔍</div>
+          <div class="em-text">No scan history yet.<br>Browse the web and FireWhale AI will analyze pages automatically.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Settings -->
+    <div class="panel">
+      <div class="panel-header">
+        <div class="panel-title">Protection Settings</div>
+      </div>
+      <div class="settings-grid">
+        <div class="toggle-row" style="grid-column:1/-1">
+          <div class="toggle-info">
+            <div class="toggle-name">Auto-Scan</div>
+            <div class="toggle-desc">Automatically scan every page you visit</div>
+          </div>
+          <label class="toggle">
+            <input type="checkbox" id="tog-autoScan" checked>
+            <div class="toggle-track"><div class="toggle-thumb"></div></div>
+          </label>
+        </div>
+        <div class="toggle-row">
+          <div class="toggle-info">
+            <div class="toggle-name">Phishing</div>
+            <div class="toggle-desc">Detect fake login pages & scam sites</div>
+          </div>
+          <label class="toggle">
+            <input type="checkbox" id="tog-phishing" checked>
+            <div class="toggle-track"><div class="toggle-thumb"></div></div>
+          </label>
+        </div>
+        <div class="toggle-row">
+          <div class="toggle-info">
+            <div class="toggle-name">Misinfo</div>
+            <div class="toggle-desc">Flag false claims & fake news</div>
+          </div>
+          <label class="toggle">
+            <input type="checkbox" id="tog-misinfo" checked>
+            <div class="toggle-track"><div class="toggle-thumb"></div></div>
+          </label>
+        </div>
+        <div class="toggle-row">
+          <div class="toggle-info">
+            <div class="toggle-name">Deepfakes</div>
+            <div class="toggle-desc">Identify synthetic media & AI fakes</div>
+          </div>
+          <label class="toggle">
+            <input type="checkbox" id="tog-deepfake" checked>
+            <div class="toggle-track"><div class="toggle-thumb"></div></div>
+          </label>
+        </div>
+        <div class="toggle-row">
+          <div class="toggle-info">
+            <div class="toggle-name">Policies</div>
+            <div class="toggle-desc">Analyze privacy policies on click</div>
+          </div>
+          <label class="toggle">
+            <input type="checkbox" id="tog-privacy">
+            <div class="toggle-track"><div class="toggle-thumb"></div></div>
+          </label>
+        </div>
+      </div>
+
+      <div class="section-divider">
+        <div class="section-divider-line"></div>
+        <div class="section-divider-label">Info</div>
+        <div class="section-divider-line"></div>
+      </div>
+
+      <div style="display:flex;flex-direction:column;gap:8px;">
+        <div style="background:rgba(0,212,255,0.04);border:1px solid rgba(0,212,255,0.15);border-radius:10px;padding:12px;font-size:11px;color:var(--text-muted);line-height:1.6">
+          <span style="color:var(--text);font-weight:600">✨ Powered by Google Gemini Flash</span><br>
+          Each page scan uses Gemini AI to deeply analyze content. API calls are made directly from your browser. No data passes through any intermediate server.
+        </div>
+        <div style="background:rgba(0,212,255,0.04);border:1px solid rgba(0,212,255,0.15);border-radius:10px;padding:12px;font-size:11px;color:var(--text-muted);line-height:1.6">
+          💡 <strong style="color:var(--text)">Pro Tip:</strong> Install uBlock Origin alongside FireWhale AI and use Brave Browser for maximum protection against ads, trackers, and malicious scripts.
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+<script src="dashboard.js"></script>
+</body>
+</html>
