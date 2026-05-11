@@ -24,7 +24,8 @@
 ## 📸 Screenshots
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/koolpega/FireWhaleAI-extension/main/assets/preview1.png" width="800">
+  <img src="https://raw.githubusercontent.com/koolpega/FireWhaleAI-extension/main/assets/screenshots/dashboard.png" width="800">
+  <img src="https://raw.githubusercontent.com/koolpega/FireWhaleAI-extension/main/assets/screenshots/settings.png" width="800">
 </p>
 
 ---
